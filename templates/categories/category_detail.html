@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ category.name }} - Smart S3r{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto lg:w-[70%] px-6 py-12 lg:py-24">
+  <!-- Breadcrumbs -->
+  <nav class="flex mb-12 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
+    <a href="{% url 'categories:categories' %}" class="hover:text-slate-900 transition-colors">Categories</a>
+    <span class="mx-3">/</span>
+    <span class="text-slate-900">{{ category.name }}</span>
+  </nav>
+
+  <!-- Header -->
+  <div class="mb-16">
+    <h2 class="text-xs font-black text-slate-400 uppercase tracking-[0.3em] mb-2">Category</h2>
+    <h1 class="text-4xl font-black text-slate-900 tracking-tight">{{ category.name }}</h1>
+    <p class="text-sm font-bold text-slate-400 uppercase tracking-widest mt-4">{{ page_obj.paginator.count }} items found</p>
+  </div>
+
+  <!-- Products Grid Area -->
+  <div id="category-products">
+    {% include 'categories/partials/category_products.html' %}
+  </div>
+
+  <!-- Pagination -->
+  {% if page_obj.has_other_pages %}
+  <div class="mt-16 flex justify-center gap-2">
+    {% if page_obj.has_previous %}
+    <a
+      href="?page={{ page_obj.previous_page_number }}"
+      class="h-12 px-6 flex items-center justify-center bg-white border border-slate-200 rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-600 hover:bg-slate-50 transition-all"
+    >
+      Prev
+    </a>
+    {% endif %}
+
+    <span class="h-12 px-6 flex items-center justify-center bg-slate-900 text-white rounded-xl text-[10px] font-black uppercase tracking-widest">{{ page_obj.number }}</span>
+
+    {% if page_obj.has_next %}
+    <a
+      href="?page={{ page_obj.next_page_number }}"
+      class="h-12 px-6 flex items-center justify-center bg-white border border-slate-200 rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-600 hover:bg-slate-50 transition-all"
+    >
+      Next
+    </a>
+    {% endif %}
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

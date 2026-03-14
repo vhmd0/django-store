@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load hugeicons_stroke %}
+
+{% block title %}Products - Smart S3r{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto lg:w-[85%] px-6 py-12 lg:py-24">
+  <!-- Header -->
+  <div class="mb-16">
+    <h2 class="text-sm font-bold text-primary-600 uppercase tracking-widest mb-2">Browse Our Collection</h2>
+    <h1 class="text-4xl md:text-5xl font-black text-slate-900 tracking-tight">All Products</h1>
+    <p class="text-sm font-semibold text-slate-500 mt-4">{{ page_obj.paginator.count }} items found</p>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-4 gap-12 lg:gap-16">
+    <!-- Sidebar Filters -->
+    <aside class="lg:col-span-1">
+      <div class="sticky top-28 space-y-10">
+        <!-- Search -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-black text-slate-900 tracking-wide">Search</h3>
+          <form method="get" action="{% url 'products:products' %}">
+            {% if current_category %}<input type="hidden" name="category" value="{{ current_category }}" />{% endif %}
+            {% if current_sort %}<input type="hidden" name="sort" value="{{ current_sort }}" />{% endif %}
+            <c-input
+              type="text"
+              name="q"
+              value="{{ query }}"
+              placeholder="Keywords..."
+              class="w-full bg-slate-50 border-slate-200"
+            />
+          </form>
+        </div>
+
+        <!-- Categories -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-black text-slate-900 tracking-wide">Categories</h3>
+          <div class="space-y-2">
+            <a
+              href="?{% if query %}q={{ query }}&{% endif %}{% if current_sort and current_sort != '-created_at' %}sort={{ current_sort }}&{% endif %}"
+              class="block px-4 py-2.5 rounded-xl text-sm font-semibold transition-all {% if not current_category %}bg-primary-50 text-primary-700{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}"
+            >
+              All Products
+            </a>
+            {% for category in categories %}
+            <a
+              href="?category={{ category.slug }}{% if query %}&q={{ query }}{% endif %}{% if current_sort and current_sort != '-created_at' %}&sort={{ current_sort }}{% endif %}"
+              class="block px-4 py-2.5 rounded-xl text-sm font-semibold transition-all {% if current_category == category.slug %}bg-primary-50 text-primary-700{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}"
+            >
+              {{ category.name }}
+            </a>
+            {% endfor %}
+          </div>
+        </div>
+
+        <!-- Sort -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-black text-slate-900 tracking-wide">Sort By</h3>
+          <form method="get" action="{% url 'products:products' %}">
+            {% if query %}<input type="hidden" name="q" value="{{ query }}" />{% endif %}
+            {% if current_category %}<input type="hidden" name="category" value="{{ current_category }}" />{% endif %}
+            <div class="relative">
+              <select
+                name="sort"
+                onchange="this.form.submit()"
+                class="w-full h-11 pl-4 pr-10 rounded-xl border border-slate-200 bg-slate-50 text-sm font-semibold text-slate-700 focus:outline-none focus:ring-4 focus:ring-primary-500/10 focus:border-primary-500 transition-all appearance-none uppercase tracking-wider text-xs"
+              >
+                <option value="-created_at" {% if current_sort == '-created_at' %}selected{% endif %}>Newest</option>
+                <option value="created_at" {% if current_sort == 'created_at' %}selected{% endif %}>Oldest</option>
+                <option value="price" {% if current_sort == 'price' %}selected{% endif %}>Price: Low to High</option>
+                <option value="-price" {% if current_sort == '-price' %}selected{% endif %}>Price: High to Low</option>
+                <option value="name" {% if current_sort == 'name' %}selected{% endif %}>Name: A to Z</option>
+                <option value="-name" {% if current_sort == '-name' %}selected{% endif %}>Name: Z to A</option>
+              </select>
+              <div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-slate-400">
+                <span class="w-4 h-4 inline-flex">{% hgi_stroke "chevron-down" size=16 %}</span>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Product Grid Area -->
+    <div class="lg:col-span-3">
+      <div id="product-grid">
+        {% include 'products/partials/product_grid.html' %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

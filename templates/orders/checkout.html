@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block title %}Checkout - Smart S3r{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto lg:w-[70%] px-6 py-12 lg:py-24">
+  <div class="mb-16">
+    <h2 class="text-xs font-black text-slate-400 uppercase tracking-[0.3em] mb-2">Final Step</h2>
+    <h1 class="text-4xl font-black text-slate-900 tracking-tight">Checkout</h1>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-16">
+    <!-- Order Summary -->
+    <div class="lg:col-span-1 lg:order-2">
+      <div class="bg-slate-50 rounded-[2.5rem] p-10 space-y-10 sticky top-24">
+        <h2 class="text-[10px] font-black text-slate-900 uppercase tracking-widest">Order Summary</h2>
+        
+        <div class="space-y-6">
+          {% for item in products %}
+          <div class="flex justify-between items-start gap-4">
+            <div class="space-y-1">
+              <p class="text-[11px] font-black text-slate-900 uppercase tracking-tight">{{ item.product.name }}</p>
+              <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Qty {{ item.quantity }}</p>
+            </div>
+            <p class="text-[11px] font-black text-slate-900">${{ item.subtotal }}</p>
+          </div>
+          {% endfor %}
+        </div>
+
+        <div class="pt-10 border-t border-slate-200 flex justify-between items-baseline">
+          <span class="text-xs font-black text-slate-900 uppercase tracking-widest">Total</span>
+          <span class="text-3xl font-black text-slate-900">${{ total }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Shipping Form -->
+    <div class="lg:col-span-2 lg:order-1">
+      <form method="POST" action="{% url 'orders:create_order' %}" class="space-y-12">
+        {% csrf_token %}
+        
+        <div class="space-y-10">
+          <h2 class="text-xs font-black text-slate-900 uppercase tracking-widest pb-4 border-b border-slate-100">Shipping Details</h2>
+
+          <div class="space-y-8">
+            <div class="space-y-4">
+              <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Full Address</label>
+              <textarea 
+                name="shipping_address" 
+                rows="3" 
+                required
+                class="w-full px-8 py-6 rounded-[2rem] border border-slate-100 bg-slate-50 text-[11px] font-black uppercase tracking-widest focus:outline-none focus:ring-4 focus:ring-slate-900/5 focus:border-slate-200 transition-all placeholder:text-slate-300"
+                placeholder="STREET, CITY, STATE, ZIP..."
+              ></textarea>
+            </div>
+
+            <div class="space-y-4">
+              <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Phone Number</label>
+              <input 
+                type="tel" 
+                name="phone" 
+                required
+                class="w-full h-16 px-8 rounded-full border border-slate-100 bg-slate-50 text-[11px] font-black uppercase tracking-widest focus:outline-none focus:ring-4 focus:ring-slate-900/5 focus:border-slate-200 transition-all placeholder:text-slate-300"
+                placeholder="+1 (555) 000-0000"
+              />
+            </div>
+
+            <div class="space-y-4">
+              <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Order Notes (Optional)</label>
+              <textarea 
+                name="notes" 
+                rows="2" 
+                class="w-full px-8 py-6 rounded-[2rem] border border-slate-100 bg-slate-50 text-[11px] font-black uppercase tracking-widest focus:outline-none focus:ring-4 focus:ring-slate-900/5 focus:border-slate-200 transition-all placeholder:text-slate-300"
+                placeholder="SPECIAL INSTRUCTIONS..."
+              ></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-10 bg-slate-900 rounded-[2.5rem] space-y-8 shadow-2xl shadow-slate-900/20">
+          <div class="flex justify-between items-center">
+            <h3 class="text-[10px] font-black text-white uppercase tracking-widest">Payment Method</h3>
+            <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Cash on Delivery</span>
+          </div>
+          
+          <button 
+            type="submit" 
+            class="w-full h-16 bg-white text-slate-900 rounded-full text-[11px] font-black uppercase tracking-widest hover:bg-slate-50 transition-all active:scale-95 shadow-xl"
+          >
+            Confirm Order — ${{ total }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

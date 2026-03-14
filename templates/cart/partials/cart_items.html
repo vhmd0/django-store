@@ -1,0 +1,88 @@
+{% if products %}
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-16">
+  <!-- Cart Items -->
+  <div class="lg:col-span-2 space-y-12">
+    {% for item in products %}
+    <div class="flex flex-col sm:flex-row gap-8 pb-12 border-b border-slate-100 last:border-0 group">
+      <!-- Product Image -->
+      <div class="w-full sm:w-40 aspect-square bg-slate-50 rounded-[2rem] overflow-hidden border border-slate-100 flex-shrink-0">
+        {% if item.product.img %}
+        <img src="{{ item.product.img.url }}" alt="{{ item.product.name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+        {% else %}
+        <div class="w-full h-full flex items-center justify-center text-slate-300">
+          <span class="text-[9px] font-black uppercase tracking-widest">No Image</span>
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- Product Info -->
+      <div class="flex-1 flex flex-col">
+        <div class="flex justify-between items-start mb-2">
+          <div>
+            <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-2">{{ item.product.brand.name }}</span>
+            <h3 class="text-lg font-black text-slate-900 uppercase tracking-tight">{{ item.product.name }}</h3>
+          </div>
+          <span class="text-lg font-black text-slate-900">${{ item.product.price }}</span>
+        </div>
+
+        <div class="mt-auto flex items-end justify-between">
+          <div class="flex items-center gap-6">
+            <div class="text-[10px] font-black uppercase tracking-widest text-slate-400">
+              Qty <span class="text-slate-900 ml-2">{{ item.quantity }}</span>
+            </div>
+            <form method="post" action="{% url 'cart:remove' item.product.id %}" class="inline">
+              {% csrf_token %}
+              <button
+                type="submit"
+                class="text-[9px] font-black uppercase tracking-widest text-red-500 hover:text-red-600 transition-colors"
+              >
+                Remove
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- Cart Summary -->
+  <div class="lg:col-span-1">
+    <div class="bg-slate-50 rounded-[2.5rem] p-10 sticky top-24">
+      <h2 class="text-xs font-black text-slate-900 uppercase tracking-[0.2em] mb-10">Order Summary</h2>
+      
+      <div class="space-y-6">
+        <div class="flex justify-between text-[10px] font-black uppercase tracking-widest text-slate-400">
+          <span>Subtotal</span>
+          <span class="text-slate-900">${{ total|floatformat:2 }}</span>
+        </div>
+        <div class="flex justify-between text-[10px] font-black uppercase tracking-widest text-slate-400">
+          <span>Shipping</span>
+          <span class="text-slate-900">Calculated at checkout</span>
+        </div>
+        
+        <div class="pt-6 border-t border-slate-200 flex justify-between items-baseline">
+          <span class="text-xs font-black text-slate-900 uppercase tracking-widest">Total</span>
+          <span class="text-3xl font-black text-slate-900">${{ total|floatformat:2 }}</span>
+        </div>
+      </div>
+
+      <button class="mt-10 w-full h-14 bg-slate-900 text-white rounded-2xl text-[11px] font-black uppercase tracking-widest hover:bg-slate-800 transition-all active:scale-95 shadow-xl shadow-slate-900/20">
+        Checkout
+      </button>
+      
+      <p class="mt-6 text-center text-[9px] font-black text-slate-400 uppercase tracking-widest">
+        Tax included. Shipping calculated at checkout.
+      </p>
+    </div>
+  </div>
+</div>
+{% else %}
+<div class="text-center py-24 bg-slate-50 rounded-[3rem]">
+  <h2 class="text-2xl font-black text-slate-900 uppercase tracking-tight mb-4">Your cart is empty</h2>
+  <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-10">Add some products to get started!</p>
+  <a href="{% url 'products:products' %}" class="inline-flex h-14 items-center px-10 bg-slate-900 text-white rounded-2xl text-[11px] font-black uppercase tracking-widest hover:bg-slate-800 transition-all active:scale-95 shadow-xl shadow-slate-900/20">
+    Browse Products
+  </a>
+</div>
+{% endif %}

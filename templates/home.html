@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% block title %}Home - Smart S3r{% endblock %}
+{% block content %}
+<div class="max-w-7xl mx-auto lg:w-[70%] px-6 py-12 lg:py-24">
+  <!-- Hero Section -->
+  <section class="mb-32">
+    <div class="bg-slate-900 rounded-[3rem] p-12 md:p-24 text-center text-white shadow-2xl shadow-slate-900/20 relative overflow-hidden">
+      <div class="relative z-10 max-w-2xl mx-auto">
+        <h1 class="text-5xl md:text-8xl font-black mb-8 tracking-tighter leading-[0.9]">Smart S3r.</h1>
+        <p class="text-[11px] font-black text-slate-400 mb-12 uppercase tracking-[0.3em] leading-relaxed">
+          Curating the finest selection of premium essentials for your daily life.
+        </p>
+        <a href="{% url 'products:products' %}" class="inline-flex h-14 items-center px-12 bg-white text-slate-900 rounded-2xl text-[11px] font-black uppercase tracking-widest hover:bg-slate-100 transition-all active:scale-95 shadow-xl">
+          Shop Collection /
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Categories Section -->
+  <section class="mb-32">
+    <div class="flex items-end justify-between mb-16">
+      <div>
+        <h2 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.4em] mb-4">Discover</h2>
+        <h3 class="text-4xl font-black text-slate-900 tracking-tight">Categories</h3>
+      </div>
+      <a href="{% url 'categories:categories' %}" class="text-[10px] font-black text-slate-900 uppercase tracking-widest hover:underline decoration-2 underline-offset-8 transition-all">
+        View All /
+      </a>
+    </div>
+    
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-8">
+      {% for category in categories %}
+      <a href="{% url 'categories:category_detail' category.slug %}" class="group">
+        <div class="bg-white rounded-[2.5rem] border border-slate-100 p-10 text-center hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-500">
+          <div class="w-20 h-20 bg-slate-50 text-slate-400 rounded-full mb-8 flex items-center justify-center group-hover:bg-slate-900 group-hover:text-white transition-all duration-500 mx-auto">
+            <span class="text-xl font-black">{{ category.name.0 }}</span>
+          </div>
+          <h3 class="font-black text-slate-900 text-[10px] uppercase tracking-[0.2em]">{{ category.name }}</h3>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- Featured Products Section -->
+  <section>
+    <div class="flex items-end justify-between mb-16">
+      <div>
+        <h2 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.4em] mb-4">New Arrivals</h2>
+        <h3 class="text-4xl font-black text-slate-900 tracking-tight">Featured</h3>
+      </div>
+      <a href="{% url 'products:products' %}" class="text-[10px] font-black text-slate-900 uppercase tracking-widest hover:underline decoration-2 underline-offset-8 transition-all">
+        Shop All /
+      </a>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+      {% for product in featured_products %}
+      <a href="{% url 'products:product_detail' product.slug %}" class="group block h-full">
+        <div class="bg-white rounded-[2.5rem] border border-slate-100 p-6 hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-500 h-full flex flex-col">
+          <div class="aspect-square bg-slate-50 rounded-[2rem] mb-8 overflow-hidden relative border border-slate-50">
+            {% if product.img %}
+            <img src="{{ product.img.url }}" alt="{{ product.name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+            {% elif product.img_link %}
+            <img src="{{ product.img_link }}" alt="{{ product.name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+            {% else %}
+            <div class="w-full h-full flex items-center justify-center text-slate-300">
+              <span class="text-[9px] font-black uppercase tracking-widest">No Image</span>
+            </div>
+            {% endif %}
+          </div>
+          <div class="flex flex-col flex-1">
+            <h3 class="font-black text-slate-900 text-[11px] uppercase tracking-tight mb-2 line-clamp-1 group-hover:text-slate-500 transition-colors">{{ product.name }}</h3>
+            <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-6">{{ product.brand.name }}</p>
+            <div class="mt-auto flex items-baseline justify-between pt-4 border-t border-slate-50">
+              <span class="text-xl font-black text-slate-900">${{ product.price }}</span>
+              <span class="text-[9px] font-black text-slate-900 uppercase tracking-widest">View /</span>
+            </div>
+          </div>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </section>
+</div>
+{% endblock %}

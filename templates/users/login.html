@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Login - Smart S3r{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto lg:w-[70%] px-6 py-12 lg:py-24">
+  <div class="max-w-md mx-auto space-y-16">
+    <div class="text-center">
+      <h2 class="text-xs font-black text-slate-400 uppercase tracking-[0.3em] mb-4">Account Access</h2>
+      <h1 class="text-4xl font-black text-slate-900 tracking-tight">Login</h1>
+    </div>
+    
+    <form class="space-y-12" method="POST">
+      {% csrf_token %}
+      <div class="space-y-8">
+        <div class="space-y-4">
+          <label for="id_username" class="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Username</label>
+          <input id="id_username" name="username" type="text" required class="w-full h-16 px-8 rounded-full border border-slate-100 bg-slate-50 text-[11px] font-black uppercase tracking-widest focus:outline-none focus:ring-4 focus:ring-slate-900/5 focus:border-slate-200 transition-all placeholder:text-slate-300" placeholder="USERNAME">
+        </div>
+        <div class="space-y-4">
+          <div class="flex justify-between items-center px-4">
+            <label for="id_password" class="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Password</label>
+            <a href="#" class="text-[9px] font-black text-slate-900 uppercase tracking-widest hover:underline transition-all">Forgot?</a>
+          </div>
+          <input id="id_password" name="password" type="password" required class="w-full h-16 px-8 rounded-full border border-slate-100 bg-slate-50 text-[11px] font-black uppercase tracking-widest focus:outline-none focus:ring-4 focus:ring-slate-900/5 focus:border-slate-200 transition-all placeholder:text-slate-300" placeholder="••••••••">
+        </div>
+      </div>
+
+      <div class="space-y-8">
+        <button type="submit" class="w-full h-16 bg-slate-900 text-white rounded-full text-[11px] font-black uppercase tracking-widest hover:bg-slate-800 transition-all active:scale-95 shadow-xl shadow-slate-900/20">
+          Sign In
+        </button>
+        
+        <div class="text-center space-y-4">
+          <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+            New to Smart S3r?
+          </p>
+          <a href="{% url 'users:register' %}" class="inline-block h-12 px-8 border border-slate-200 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-50 transition-all active:scale-95">
+            Create Account
+          </a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Cart - Smart S3r{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto lg:w-[70%] px-6 py-12 lg:py-24">
+  <div class="mb-16">
+    <h2 class="text-xs font-black text-slate-400 uppercase tracking-[0.3em] mb-2">Your Selection</h2>
+    <h1 class="text-4xl font-black text-slate-900 tracking-tight">Shopping Cart</h1>
+  </div>
+
+  <div id="cart-items">
+    {% include 'cart/partials/cart_items.html' %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,22 @@
+<span
+  {{ attrs }}
+  class="
+    inline-flex items-center px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider
+    {% if variant == 'success' or variant == 'instock' %}
+      bg-emerald-100 text-emerald-800 border border-emerald-200
+    {% elif variant == 'danger' or variant == 'soldout' %}
+      bg-rose-100 text-rose-800 border border-rose-200
+    {% elif variant == 'warning' %}
+      bg-amber-100 text-amber-800 border border-amber-200
+    {% elif variant == 'info' %}
+      bg-sky-100 text-sky-800 border border-sky-200
+    {% elif variant == 'primary' %}
+      bg-primary-100 text-primary-800 border border-primary-200
+    {% else %}
+      bg-slate-100 text-slate-700 border border-slate-200
+    {% endif %}
+    {{ class }}
+  "
+>
+  {{ slot }}
+</span>

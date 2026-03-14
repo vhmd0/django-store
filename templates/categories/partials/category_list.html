@@ -1,0 +1,17 @@
+{% for category in categories %}
+<a href="{% url 'categories:category_detail' category.slug %}" class="group">
+  <div class="bg-white rounded-[2rem] border border-slate-100 p-8 text-center hover:shadow-xl hover:shadow-slate-200/50 transition-all duration-500">
+    <div class="h-32 bg-slate-50 rounded-2xl mb-6 flex items-center justify-center group-hover:bg-primary/5 transition-colors">
+      <span class="text-xs font-black text-slate-400 uppercase tracking-widest">{{ category.name.0 }}</span>
+    </div>
+    <h3 class="font-black text-slate-900 uppercase text-[10px] tracking-widest mb-2">{{ category.name }}</h3>
+    <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">
+      {{ category.products.count }} PRODUCTS
+    </p>
+  </div>
+</a>
+{% empty %}
+<div class="col-span-full text-center py-24 bg-slate-50 rounded-[3rem] border-2 border-dashed border-slate-200">
+  <p class="text-slate-400 font-black uppercase tracking-widest">No categories available.</p>
+</div>
+{% endfor %}

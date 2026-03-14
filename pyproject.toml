@@ -1,0 +1,14 @@
+[project]
+name = "smart-s3r"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "django>=6.0.3",
+    "django-cotton>=2.6.1",
+    "django-hugeicons-stroke>=1.1.2",
+    "django-jazzmin>=3.0.3",
+    "django-silk[formatting]>=5.0.0",
+    "pillow>=12.1.1",
+]

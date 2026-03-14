@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block title %}Order #{{ order.id }} - Smart S3r{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto lg:w-[70%] px-6 py-12 lg:py-24">
+  <div class="mb-16">
+    <a href="{% url 'orders:order_list' %}" class="text-[10px] font-black text-slate-400 hover:text-slate-900 uppercase tracking-widest transition-colors mb-12 block">
+      / BACK TO ORDERS
+    </a>
+    <div class="flex flex-wrap items-end justify-between gap-8">
+      <div>
+        <h2 class="text-xs font-black text-slate-400 uppercase tracking-[0.3em] mb-2">Order Summary</h2>
+        <h1 class="text-4xl font-black text-slate-900 tracking-tight">Order #{{ order.id }}</h1>
+      </div>
+      <div class="flex flex-wrap gap-4">
+        <span class="h-10 px-6 flex items-center rounded-xl text-[9px] font-black uppercase tracking-widest
+          {% if order.status == 'delivered' %}bg-slate-900 text-white
+          {% elif order.status == 'cancelled' %}bg-rose-50 text-rose-500
+          {% elif order.status == 'refunded' %}bg-slate-100 text-slate-400
+          {% else %}bg-slate-50 text-slate-900{% endif %}">
+          {{ order.get_status_display }}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-16">
+    <div class="lg:col-span-2 space-y-12">
+      <!-- Order Items -->
+      <div class="space-y-8">
+        <h3 class="text-xs font-black text-slate-900 uppercase tracking-widest pb-4 border-b border-slate-50">Items</h3>
+        <div class="space-y-8">
+          {% for item in items %}
+          <div class="flex items-center justify-between gap-8 pb-8 border-b border-slate-50 last:border-0 group">
+            <div class="flex items-center gap-8">
+              <div class="w-24 h-24 bg-slate-50 rounded-[1.5rem] overflow-hidden border border-slate-100 flex-shrink-0">
+                {% if item.product.img %}
+                <img src="{{ item.product.img.url }}" alt="{{ item.product.name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                {% elif item.product.img_link %}
+                <img src="{{ item.product.img_link }}" alt="{{ item.product.name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                {% else %}
+                <div class="w-full h-full flex items-center justify-center text-slate-300">
+                  <span class="text-[8px] font-black uppercase tracking-widest">No Image</span>
+                </div>
+                {% endif %}
+              </div>
+              <div class="space-y-2">
+                <h4 class="text-lg font-black text-slate-900 uppercase tracking-tighter">{{ item.product.name }}</h4>
+                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">${{ item.price }} × {{ item.quantity }}</p>
+              </div>
+            </div>
+            <p class="text-lg font-black text-slate-900">${{ item.subtotal }}</p>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Info Column -->
+    <div class="lg:col-span-1 space-y-12">
+      <div class="bg-slate-50 rounded-[2.5rem] p-10 space-y-10 sticky top-24">
+        <div class="space-y-4">
+          <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Shipping Address</h3>
+          <p class="text-xs font-black text-slate-900 uppercase leading-relaxed tracking-wider">{{ order.shipping_address }}</p>
+        </div>
+        
+        <div class="space-y-4">
+          <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Payment</h3>
+          <p class="text-xs font-black text-slate-900 uppercase tracking-wider">
+            {{ order.get_payment_method_display }}<br>
+            <span class="text-slate-400">{{ order.get_payment_status_display }}</span>
+          </p>
+        </div>
+
+        {% if order.notes %}
+        <div class="space-y-4">
+          <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Order Notes</h3>
+          <p class="text-xs font-black text-slate-900 uppercase tracking-wider leading-relaxed">{{ order.notes }}</p>
+        </div>
+        {% endif %}
+
+        <div class="pt-10 border-t border-slate-200 flex justify-between items-baseline">
+          <span class="text-xs font-black text-slate-900 uppercase tracking-widest">Total</span>
+          <span class="text-3xl font-black text-slate-900">${{ order.total_amount }}</span>
+        </div>
+
+        <a 
+          href="{% url 'products:products' %}" 
+          class="w-full h-14 flex items-center justify-center bg-slate-900 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-800 transition-all active:scale-95 shadow-xl shadow-slate-900/20"
+        >
+          Continue Shopping
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

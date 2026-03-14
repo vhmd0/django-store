@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}About Us - Smart S3r{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto lg:w-[70%] px-6 py-12 lg:py-24">
+  <div class="max-w-3xl mb-24">
+    <h2 class="text-xs font-black text-slate-400 uppercase tracking-[0.3em] mb-4">Our Story</h2>
+    <h1 class="text-5xl lg:text-7xl font-black text-slate-900 tracking-tighter leading-[0.9] mb-12">Crafting the Future of Retail.</h1>
+    <p class="text-xl text-slate-500 font-medium leading-relaxed">
+      Smart S3r was founded on a simple principle: that quality design and exceptional functionality should be accessible to everyone. We curate products that blend form and function seamlessly into your daily life.
+    </p>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-16 lg:gap-32 mb-32">
+    <div class="space-y-8">
+      <h3 class="text-xs font-black text-slate-900 uppercase tracking-widest">Our Mission</h3>
+      <p class="text-slate-500 font-medium leading-relaxed">
+        We believe in the power of minimalism. By stripping away the unnecessary, we focus on what truly matters: the quality of the materials, the precision of the build, and the experience of the user. Our mission is to provide a platform where every product tells a story of intentionality and excellence.
+      </p>
+    </div>
+    <div class="space-y-8">
+      <h3 class="text-xs font-black text-slate-900 uppercase tracking-widest">Our Vision</h3>
+      <p class="text-slate-500 font-medium leading-relaxed">
+        Retail is evolving, and we are at the forefront. We envision a world where shopping is not just a transaction, but an exploration of taste and values. Smart S3r is more than a store; it's a destination for those who appreciate the finer details and demand the best from their surroundings.
+      </p>
+    </div>
+  </div>
+
+  <div class="bg-slate-900 rounded-[3rem] p-12 md:p-24 text-center">
+    <h2 class="text-3xl md:text-5xl font-black text-white tracking-tight mb-8">Join Our Community</h2>
+    <p class="text-slate-400 font-medium mb-12 max-w-xl mx-auto">
+      Stay updated with our latest collections and exclusive releases. We promise only the highest quality content.
+    </p>
+    <a href="{% url 'products:products' %}" class="inline-flex h-14 items-center px-10 bg-white text-slate-900 rounded-2xl text-[11px] font-black uppercase tracking-widest hover:bg-slate-100 transition-all active:scale-95 shadow-xl">
+      Explore Store
+    </a>
+  </div>
+</div>
+{% endblock %}

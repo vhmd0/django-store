@@ -1,0 +1,11 @@
+<div
+  {{ attrs }}
+  class="
+    bg-white rounded-2xl md:rounded-[2rem] border border-slate-100/80 shadow-sm
+    {% if hover %}hover:shadow-xl hover:-translate-y-1 hover:border-primary-100 hover:shadow-primary-500/10 transition-all duration-500 ease-out{% endif %}
+    overflow-hidden
+    {{ class }}
+  "
+>
+  {{ slot }}
+</div>
