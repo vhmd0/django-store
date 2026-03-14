@@ -1,77 +1,34 @@
-<footer class="border-t bg-white py-24">
-  <div class="max-w-7xl mx-auto lg:w-[70%] px-6">
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-12 lg:gap-24">
-      <!-- Company Info -->
-      <div class="space-y-8">
-        <h3 class="text-2xl font-black text-slate-900 tracking-tighter">Smart S3r</h3>
-        <p class="text-[11px] font-black text-slate-400 uppercase tracking-widest leading-relaxed">
-          Your trusted destination for quality products and exceptional shopping
-          experience.
-        </p>
-      </div>
-
-      <!-- Quick Links -->
-      <div class="space-y-6">
-        <h4 class="text-xs font-black text-slate-400 uppercase tracking-[0.2em]">Quick Links</h4>
-        <ul class="space-y-4">
-          <li>
-            <a href="{% url 'about' %}" class="text-sm font-bold text-slate-600 hover:text-slate-900 transition-colors">About Us</a>
-          </li>
-          <li>
-            <a href="{% url 'products:products' %}" class="text-sm font-bold text-slate-600 hover:text-slate-900 transition-colors">Products</a>
-          </li>
-          <li>
-            <a href="{% url 'categories:categories' %}" class="text-sm font-bold text-slate-600 hover:text-slate-900 transition-colors">Categories</a>
-          </li>
-        </ul>
-      </div>
-
-      <!-- Customer Service -->
-      <div class="space-y-6">
-        <h4 class="text-xs font-black text-slate-400 uppercase tracking-[0.2em]">Customer Service</h4>
-        <ul class="space-y-4">
-          <li>
-            <a href="#" class="text-sm font-bold text-slate-600 hover:text-slate-900 transition-colors">Shipping Policy</a>
-          </li>
-          <li>
-            <a href="#" class="text-sm font-bold text-slate-600 hover:text-slate-900 transition-colors">Returns & Exchanges</a>
-          </li>
-          <li>
-            <a href="#" class="text-sm font-bold text-slate-600 hover:text-slate-900 transition-colors">FAQ</a>
-          </li>
-        </ul>
-      </div>
-
-      <!-- Newsletter -->
-      <div class="space-y-6">
-        <h4 class="text-xs font-black text-slate-400 uppercase tracking-[0.2em]">Newsletter</h4>
-        <p class="text-sm font-medium text-slate-500 leading-relaxed">
-          Subscribe to get special offers and updates.
-        </p>
-        <form class="flex gap-2">
-          <input
-            type="email"
-            placeholder="YOUR EMAIL"
-            class="flex-1 h-12 px-4 rounded-xl border border-slate-200 bg-slate-50 text-[10px] font-black tracking-[0.2em] focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary transition-all"
-          />
-          <button
-            type="submit"
-            class="h-12 px-6 bg-slate-900 text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-800 transition-all active:scale-95"
-          >
-            Join
-          </button>
-        </form>
-      </div>
+{% load i18n %}
+<footer class="footer bg-white border-t border-gray-100 mt-20 p-10 text-gray-600">
+  <aside class="space-y-4">
+    <h3 class="text-2xl font-black text-indigo-600 tracking-tighter">Smart S3r.</h3>
+    <p class="max-w-xs font-medium">{% blocktrans %}Your trusted destination for quality products and exceptional shopping experience.{% endblocktrans %}</p>
+  </aside>
+  <nav>
+    <h6 class="footer-title text-gray-900 font-bold tracking-widest uppercase mb-4">{% trans "Store" %}</h6>
+    <a href="{% url 'products:products' %}" class="link link-hover font-medium">{% trans "All Products" %}</a>
+    <a href="{% url 'categories:categories' %}" class="link link-hover font-medium">{% trans "Categories" %}</a>
+  </nav>
+  <nav>
+    <h6 class="footer-title text-gray-900 font-bold tracking-widest uppercase mb-4">{% trans "Support" %}</h6>
+    <a href="#" class="link link-hover font-medium">{% trans "Contact" %}</a>
+    <a href="#" class="link link-hover font-medium">{% trans "Shipping" %}</a>
+  </nav>
+  <nav class="w-full flex flex-col">
+    <h6 class="footer-title text-gray-900 font-bold tracking-widest uppercase mb-4">{% trans "Newsletter" %}</h6>
+    <div class="join w-full flex">
+      <input type="email" placeholder="{% trans 'Email address...' %}" class="input input-bordered join-item flex-1 bg-gray-50 focus:bg-white transition-colors" />
+      <button class="btn btn-primary bg-indigo-600 hover:bg-indigo-700 text-white border-0 join-item">{% trans "Join" %}</button>
     </div>
-
-    <div class="mt-32 pt-12 border-t border-slate-100 flex flex-col md:flex-row justify-between items-center gap-8">
-      <p class="text-[9px] font-black text-slate-300 uppercase tracking-[0.2em]">
-        &copy; {% now "Y" %} Smart S3r.
-      </p>
-      <div class="flex gap-10">
-        <a href="#" class="text-[9px] font-black text-slate-400 hover:text-slate-900 uppercase tracking-[0.2em] transition-colors">Privacy</a>
-        <a href="#" class="text-[9px] font-black text-slate-400 hover:text-slate-900 uppercase tracking-[0.2em] transition-colors">Terms</a>
-      </div>
-    </div>
-  </div>
+  </nav>
 </footer>
+<footer class="footer footer-center bg-gray-50 text-gray-500 p-6 font-medium">
+  <aside class="flex flex-col md:flex-row justify-between w-full max-w-7xl mx-auto px-4 items-center gap-4">
+    <p>&copy; {% now "Y" %} Smart S3r. {% trans "All rights reserved." %}</p>
+    <div class="flex gap-6">
+        <a href="#" class="hover:text-indigo-600 transition-colors">{% trans "Privacy" %}</a>
+        <a href="#" class="hover:text-indigo-600 transition-colors">{% trans "Terms" %}</a>
+    </div>
+  </aside>
+</footer>
+

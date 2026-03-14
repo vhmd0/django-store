@@ -9,7 +9,7 @@ wheels/
 *.egg-info/
 *.egg
 MANIFEST
-
+.gemini/
 # Virtual environments
 .venv/
 venv/

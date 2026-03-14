@@ -1,69 +1,233 @@
 {% extends 'base.html' %}
-
-{% block title %}My Orders - Smart S3r{% endblock %}
+{% load i18n %}
+{% block title %}{% trans "My Orders" %} - Smart S3r{% endblock %}
 
 {% block content %}
-<div class="max-w-7xl mx-auto lg:w-[70%] px-6 py-12 lg:py-24">
-  <div class="mb-16">
-    <h2 class="text-xs font-black text-slate-400 uppercase tracking-[0.3em] mb-2">Account Activity</h2>
-    <h1 class="text-4xl font-black text-slate-900 tracking-tight">My Orders</h1>
+<div class="container-narrow page-content">
+  <div class="page-header">
+    <span class="page-label">{% trans "Account Activity" %}</span>
+    <h1 class="page-title">{% trans "My Orders" %}</h1>
   </div>
 
   {% if orders %}
-  <div class="space-y-8">
+  <div class="orders-list">
     {% for order in orders %}
-    <div class="group bg-white rounded-[2.5rem] border border-slate-100 p-10 hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-500">
-      <div class="flex flex-wrap items-start justify-between gap-8 mb-10">
-        <div class="space-y-2">
-          <h3 class="text-xl font-black text-slate-900 uppercase tracking-tighter">Order #{{ order.id }}</h3>
-          <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">{{ order.created_at|date:"F j, Y, g:i a" }}</p>
+    <div class="order-card">
+      <div class="order-header">
+        <div class="order-info">
+          <h3 class="order-id">{% trans "Order #" %}{{ order.id }}</h3>
+          <p class="order-date">{{ order.created_at|date:"F j, Y, g:i a" }}</p>
         </div>
-        <div class="flex flex-wrap gap-4">
-          <span class="h-10 px-6 flex items-center rounded-xl text-[9px] font-black uppercase tracking-widest
-            {% if order.status == 'delivered' %}bg-slate-900 text-white
-            {% elif order.status == 'cancelled' %}bg-rose-50 text-rose-500
-            {% elif order.status == 'refunded' %}bg-slate-100 text-slate-400
-            {% else %}bg-slate-50 text-slate-900{% endif %}">
+        <div class="order-badges">
+          <span class="badge {% if order.status == 'delivered' %}badge-dark{% elif order.status == 'cancelled' %}badge-danger{% elif order.status == 'refunded' %}badge-muted{% else %}badge-light{% endif %}">
             {{ order.get_status_display }}
           </span>
-          <span class="h-10 px-6 flex items-center bg-slate-50 text-slate-400 rounded-xl text-[9px] font-black uppercase tracking-widest">
+          <span class="badge badge-light">
             {{ order.get_payment_status_display }}
           </span>
         </div>
       </div>
 
-      <div class="flex flex-wrap items-center justify-between gap-8 pt-10 border-t border-slate-50">
-        <div class="flex items-center gap-8">
-          <div class="space-y-1">
-            <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Items</p>
-            <p class="text-lg font-black text-slate-900">{{ order.items.count }}</p>
+      <div class="order-footer">
+        <div class="order-stats">
+          <div class="stat">
+            <p class="stat-label">{% trans "Items" %}</p>
+            <p class="stat-value">{{ order.items.count }}</p>
           </div>
-          <div class="space-y-1">
-            <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Total</p>
-            <p class="text-lg font-black text-slate-900">${{ order.total_amount }}</p>
+          <div class="stat">
+            <p class="stat-label">{% trans "Total" %}</p>
+            <p class="stat-value">${{ order.total_amount }}</p>
           </div>
         </div>
-        <a 
-          href="{% url 'orders:order_detail' order.id %}" 
-          class="h-12 px-8 flex items-center bg-slate-900 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-800 transition-all active:scale-95 shadow-xl shadow-slate-900/20"
-        >
-          View Details
+        <a href="{% url 'orders:order_detail' order.id %}" class="btn btn-primary">
+          {% trans "View Details" %}
         </a>
       </div>
     </div>
     {% endfor %}
   </div>
   {% else %}
-  <div class="text-center py-32 bg-slate-50 rounded-[3rem]">
-    <h2 class="text-2xl font-black text-slate-900 uppercase tracking-tight mb-4">No orders found</h2>
-    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-12">Your purchase history is currently empty.</p>
-    <a 
-      href="{% url 'products:products' %}" 
-      class="inline-flex h-14 items-center px-10 bg-slate-900 text-white rounded-2xl text-[11px] font-black uppercase tracking-widest hover:bg-slate-800 transition-all active:scale-95 shadow-xl shadow-slate-900/20"
-    >
-      Start Shopping
+  <div class="empty-state">
+    <h2 class="empty-title">{% trans "No orders found" %}</h2>
+    <p class="empty-text">{% trans "Your purchase history is currently empty." %}</p>
+    <a href="{% url 'products:products' %}" class="btn btn-primary btn-lg">
+      {% trans "Start Shopping" %}
     </a>
   </div>
   {% endif %}
 </div>
+
+<style>
+.page-content {
+  padding: 2rem 1rem;
+}
+
+@media (min-width: 1024px) {
+  .page-content {
+    padding: 3rem 1rem;
+  }
+}
+
+.page-header {
+  margin-bottom: 3rem;
+}
+
+.page-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 900;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  margin-bottom: 0.5rem;
+}
+
+.page-title {
+  font-size: 2rem;
+  font-weight: 900;
+  color: #0f172a;
+  letter-spacing: -0.025em;
+}
+
+.orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.order-card {
+  background-color: #ffffff;
+  border: 1px solid #f1f5f9;
+  border-radius: 2.5rem;
+  padding: 2.5rem;
+  transition: box-shadow 0.5s ease;
+}
+
+.order-card:hover {
+  box-shadow: 0 25px 50px -12px rgba(148, 163, 184, 0.5);
+}
+
+.order-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.order-id {
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: #0f172a;
+  text-transform: uppercase;
+  letter-spacing: -0.025em;
+  margin-bottom: 0.25rem;
+}
+
+.order-date {
+  font-size: 0.625rem;
+  font-weight: 900;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.order-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  height: 2.5rem;
+  padding: 0 1.5rem;
+  border-radius: 0.75rem;
+  font-size: 0.5625rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.badge-dark {
+  background-color: #0f172a;
+  color: #ffffff;
+}
+
+.badge-light {
+  background-color: #f8fafc;
+  color: #0f172a;
+}
+
+.badge-muted {
+  background-color: #f1f5f9;
+  color: #94a3b8;
+}
+
+.badge-danger {
+  background-color: #ffe4e6;
+  color: #e11d48;
+}
+
+.order-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid #f8fafc;
+}
+
+.order-stats {
+  display: flex;
+  gap: 2rem;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.stat-label {
+  font-size: 0.5625rem;
+  font-weight: 900;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.stat-value {
+  font-size: 1.125rem;
+  font-weight: 900;
+  color: #0f172a;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 5rem 2rem;
+  background-color: #f8fafc;
+  border-radius: 3rem;
+}
+
+.empty-title {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: #0f172a;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.empty-text {
+  font-size: 0.625rem;
+  font-weight: 900;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 3rem;
+}
+</style>
 {% endblock %}

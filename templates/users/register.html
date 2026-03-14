@@ -1,63 +1,72 @@
 {% extends 'base.html' %}
-
-{% block title %}Register - Smart S3r{% endblock %}
+{% load i18n %}
+{% block title %}{% trans "Register" %} - Smart S3r{% endblock %}
 
 {% block content %}
-<div class="max-w-7xl mx-auto lg:w-[70%] px-6 py-12 lg:py-24">
-  <div class="max-w-md mx-auto space-y-16">
-    <div class="text-center">
-      <h2 class="text-xs font-black text-slate-400 uppercase tracking-[0.3em] mb-4">Join Us</h2>
-      <h1 class="text-4xl font-black text-slate-900 tracking-tight">Register</h1>
+<div class="min-h-[70vh] flex items-center justify-center p-4 py-12 lg:py-24 relative overflow-hidden">
+  <!-- Decorative background elements -->
+  <div class="absolute -top-40 -right-40 w-96 h-96 bg-indigo-50 rounded-full blur-3xl opacity-50 pointer-events-none"></div>
+  <div class="absolute top-40 -left-20 w-72 h-72 bg-purple-50 rounded-full blur-3xl opacity-50 pointer-events-none"></div>
+
+  <div class="card w-full max-w-md bg-base-100 shadow-xl border border-base-200/50 p-8 sm:p-12 relative z-10">
+    <div class="text-center mb-10">
+      <div class="badge badge-primary badge-outline mb-4 px-3 py-2 rounded-full font-bold uppercase tracking-widest text-[10px]">{% trans "Join Us" %}</div>
+      <h1 class="text-3xl font-black text-base-content tracking-tight">{% trans "Register" %}</h1>
     </div>
     
-    <form class="space-y-12" method="POST">
+    <form method="POST" class="space-y-5">
       {% csrf_token %}
-      <div class="space-y-8">
+      
+      <div class="space-y-4">
         {% for field in form %}
-        <div class="space-y-4">
-          <label for="{{ field.id_for_label }}" class="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">
-            {{ field.label }}
+        <div class="form-control w-full space-y-1">
+          <label for="{{ field.id_for_label }}" class="label pb-0">
+            <span class="label-text font-bold uppercase tracking-widest text-[11px] text-base-content/70">
+              {{ field.label }}
+            </span>
           </label>
           <input 
             id="{{ field.id_for_label }}" 
             name="{{ field.name }}" 
             type="{{ field.field.widget.input_type }}" 
             required 
-            class="w-full h-16 px-8 rounded-full border border-slate-100 bg-slate-50 text-[11px] font-black uppercase tracking-widest focus:outline-none focus:ring-4 focus:ring-slate-900/5 focus:border-slate-200 transition-all placeholder:text-slate-300" 
-            placeholder="ENTER {{ field.label|upper }}">
+            class="input input-bordered w-full rounded-2xl bg-base-50 shadow-sm focus:border-primary focus:ring-1 focus:ring-primary h-12 text-sm"
+            placeholder="{% blocktrans with label=field.label %}Enter your {{ label }}{% endblocktrans %}">
+          
           {% if field.errors %}
-          <div class="mt-2 text-[9px] text-rose-500 font-black uppercase tracking-widest ml-4">
+          <div class="text-error text-[10px] font-bold mt-1 px-2 flex items-center gap-1">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
             {{ field.errors.0 }}
           </div>
           {% endif %}
+          
           {% if field.help_text %}
-          <p class="mt-2 text-[9px] text-slate-400 font-black uppercase tracking-widest ml-4 leading-relaxed">
+          <div class="text-base-content/40 text-[9px] font-bold uppercase tracking-widest mt-1 px-2 leading-relaxed">
             {{ field.help_text|safe }}
-          </p>
+          </div>
           {% endif %}
         </div>
         {% endfor %}
       </div>
 
-      <div class="space-y-8">
-        <button type="submit" class="w-full h-16 bg-slate-900 text-white rounded-full text-[11px] font-black uppercase tracking-widest hover:bg-slate-800 transition-all active:scale-95 shadow-xl shadow-slate-900/20">
-          Create Account
+      <div class="pt-6 space-y-6">
+        <button type="submit" class="btn btn-primary bg-indigo-600 hover:bg-indigo-700 text-white w-full rounded-2xl h-14 text-base font-bold shadow-md border-0 group">
+          {% trans "Create Account" %}
+          <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
         </button>
         
-        <div class="text-center space-y-4">
-          <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">
-            Already have an account?
-          </p>
-          <a href="{% url 'users:login' %}" class="inline-block h-12 px-8 border border-slate-200 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-50 transition-all active:scale-95">
-            Login Now
+        <div class="border-t border-base-200 pt-6 text-center space-y-4">
+          <p class="text-[11px] font-bold uppercase tracking-widest text-base-content/50">{% trans "Already have an account?" %}</p>
+          <a href="{% url 'users:login' %}" class="btn btn-outline border-base-300 hover:bg-base-200 hover:border-base-300 w-full rounded-2xl h-14 text-sm font-bold text-base-content">
+            {% trans "Login Now" %}
           </a>
         </div>
 
-        <p class="text-[9px] text-center text-slate-300 font-black uppercase tracking-[0.2em] px-8 leading-relaxed">
-          By joining, you agree to our 
-          <a href="#" class="text-slate-900 hover:underline">Terms</a> 
-          and 
-          <a href="#" class="text-slate-900 hover:underline">Privacy</a>.
+        <p class="text-[9px] font-bold text-base-content/40 uppercase tracking-widest text-center px-4 leading-relaxed mt-4">
+          {% trans "By joining, you agree to our" %} 
+          <a href="#" class="text-base-content hover:text-indigo-600 transition-colors">{% trans "Terms" %}</a> 
+          {% trans "and" %} 
+          <a href="#" class="text-base-content hover:text-indigo-600 transition-colors">{% trans "Privacy" %}</a>.
         </p>
       </div>
     </form>

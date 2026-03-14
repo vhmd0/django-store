@@ -47,17 +47,19 @@ INSTALLED_APPS = [
     "products",
     "cart",
     "orders",
+    "django_browser_reload",
 ]
 
 MIDDLEWARE = [
-    "django.middleware.locale.LocaleMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
 
 ROOT_URLCONF = "core.urls"
@@ -120,6 +122,10 @@ LANGUAGES = [
 ]
 TIME_ZONE = "EET"
 
+LOCALE_PATHS = [
+    BASE_DIR / 'locale',
+]
+
 USE_I18N = True
 
 USE_TZ = True
@@ -129,7 +135,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = "static/"
-STATIC_ROOT = BASE_DIR / "static"
+STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
@@ -147,7 +153,6 @@ JAZZMIN_SETTINGS = {
     "welcome_sign": "Welcome",
     "copyright": "Smart S3r",
     "search_model": [
-        "auth.User",
         "products.Product",
         "orders.Order",
     ],
@@ -187,10 +192,10 @@ JAZZMIN_UI_TWEAKS = {
     "accent": "accent-primary",
     "navbar": "navbar-dark",
     "no_navbar_border": False,
-    "navbar_fixed": False,  # Changed to False for better mobile responsiveness
+    "navbar_fixed": False, 
     "layout_boxed": False,
     "footer_fixed": False,
-    "sidebar_fixed": False,  # Changed to False for better mobile responsiveness
+    "sidebar_fixed": False,
     "sidebar": "sidebar-dark-primary",
     "sidebar_nav_small_text": True,
     "sidebar_disable_expand": False,

@@ -1,14 +1,13 @@
 #!/usr/bin/env python
 """
 Script to load fake data fixtures into the database.
-Usage: python load_fixtures.py
 """
 
 import os
 import sys
 import django
 
-# Setup Django
+
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "shop.settings")
 django.setup()
 

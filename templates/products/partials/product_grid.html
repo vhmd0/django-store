@@ -1,46 +1,72 @@
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+{% load i18n %}
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
   {% for product in page_obj %}
-  <div class="group h-full flex flex-col">
-    <a href="{% url 'products:product_detail' product.slug %}" class="flex-1">
-      <div class="bg-white rounded-[2.5rem] border border-slate-100 p-6 hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-500 h-full flex flex-col">
-        <div class="aspect-square bg-slate-50 rounded-[2rem] mb-8 overflow-hidden relative border border-slate-50">
-          {% if product.img %}
-          <img src="{{ product.img.url }}" alt="{{ product.name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-          {% elif product.img_link %}
-          <img src="{{ product.img_link }}" alt="{{ product.name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-          {% else %}
-          <div class="w-full h-full flex items-center justify-center text-slate-300">
-            <span class="text-[9px] font-black uppercase tracking-widest">No Image</span>
-          </div>
-          {% endif %}
-          
-          <div class="absolute top-4 left-4">
-            {% if product.stock > 0 %}
-              <span class="bg-white text-slate-900 px-4 py-2 rounded-xl text-[8px] font-black uppercase tracking-widest shadow-xl shadow-slate-900/10">In Stock</span>
-            {% else %}
-              <span class="bg-slate-900 text-white px-4 py-2 rounded-xl text-[8px] font-black uppercase tracking-widest">Sold Out</span>
-            {% endif %}
-          </div>
+  <div class="card bg-base-100 shadow-md hover:shadow-xl transition-shadow duration-300 border border-base-200/50 group">
+    <figure class="aspect-[4/3] bg-base-200 relative overflow-hidden">
+      {% if product.img %}
+        <img src="{{ product.img.url }}" alt="{{ product.name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+      {% elif product.img_link %}
+        <img src="{{ product.img_link }}" alt="{{ product.name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+      {% else %}
+        <div class="w-full h-full flex items-center justify-center text-base-content/50 bg-base-200">
+          <span class="text-xs font-bold uppercase tracking-wider">{% trans "No Image" %}</span>
         </div>
+      {% endif %}
+      
+      <div class="absolute top-3 left-3 flex gap-2">
+        {% if product.stock > 0 %}
+          <span class="badge badge-success text-white shadow-sm font-semibold">{% trans "In Stock" %}</span>
+        {% else %}
+          <span class="badge badge-error text-white shadow-sm font-semibold">{% trans "Sold Out" %}</span>
+        {% endif %}
+      </div>
+    </figure>
 
-        <div class="flex flex-col flex-1">
-          <h3 class="font-black text-slate-900 text-[11px] uppercase tracking-tight mb-2 line-clamp-1 group-hover:text-slate-500 transition-colors">{{ product.name }}</h3>
-          <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-6">{{ product.brand.name }}</p>
-          <div class="mt-auto flex items-baseline justify-between pt-4 border-t border-slate-50">
-            <span class="text-xl font-black text-slate-900">${{ product.price }}</span>
-            <span class="text-[9px] font-black text-slate-900 uppercase tracking-widest">View /</span>
-          </div>
+    <div class="card-body p-6">
+      <div class="flex flex-col h-full justify-between gap-4">
+        <div>
+          <h2 class="card-title text-lg font-bold line-clamp-2 text-base-content group-hover:text-primary transition-colors leading-tight mb-2">{{ product.name }}</h2>
+          <p class="text-sm font-medium text-base-content/60 uppercase tracking-widest">{{ product.brand.name }}</p>
+        </div>
+        
+        <div class="card-actions flex flex-col sm:flex-row items-center justify-between border-t border-base-200 pt-4 mt-auto w-full gap-4">
+          <span class="text-2xl font-black text-indigo-600">${{ product.price }}</span>
+          <a href="{% url 'products:product_detail' product.slug %}" class="btn btn-primary btn-sm rounded-full px-6 font-bold w-full sm:w-auto">{% trans "View" %}</a>
         </div>
       </div>
-    </a>
+    </div>
   </div>
   {% empty %}
-  <div class="col-span-full py-32 bg-slate-50 rounded-[3rem] border-2 border-dashed border-slate-200 text-center">
-    <h2 class="text-2xl font-black text-slate-900 uppercase tracking-tight mb-4">No results</h2>
-    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-12">No products found matching your criteria.</p>
-    <a href="{% url 'products:products' %}" class="inline-flex h-12 items-center px-8 bg-slate-900 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-800 transition-all active:scale-95 shadow-xl shadow-slate-900/20">
-      Clear Filters
-    </a>
+  <div class="col-span-full py-24 bg-base-200/50 rounded-3xl border border-dashed border-base-300 text-center flex flex-col justify-center items-center">
+    <div class="text-base-content/30 mb-4">
+      <svg class="w-16 h-16 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+    </div>
+    <h2 class="text-xl font-bold text-base-content uppercase tracking-tight mb-2">{% trans "No results" %}</h2>
+    <p class="text-base-content/70 mb-8 font-medium">{% trans "No products found matching your criteria." %}</p>
+    <a href="{% url 'products:products' %}" class="btn btn-outline btn-primary rounded-full px-8">{% trans "Clear Filters" %}</a>
   </div>
   {% endfor %}
 </div>
+
+<!-- Pagination -->
+{% if page_obj.has_other_pages %}
+<div class="mt-16 flex justify-center w-full">
+  <div class="join shadow-sm border border-base-200 rounded-xl overflow-hidden bg-white">
+    {% if page_obj.has_previous %}
+      <a href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}{% if current_category %}&category={{ current_category }}{% endif %}{% if current_sort %}&sort={{ current_sort }}{% endif %}" class="join-item btn btn-ghost hover:bg-base-200">{% trans "Prev" %}</a>
+    {% else %}
+      <button class="join-item btn btn-ghost btn-disabled text-base-content/30">{% trans "Prev" %}</button>
+    {% endif %}
+    
+    <button class="join-item btn btn-ghost font-bold text-indigo-600 px-6 cursor-default">
+      {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
+    </button>
+    
+    {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}{% if current_category %}&category={{ current_category }}{% endif %}{% if current_sort %}&sort={{ current_sort }}{% endif %}" class="join-item btn btn-ghost hover:bg-base-200">{% trans "Next" %}</a>
+    {% else %}
+      <button class="join-item btn btn-ghost btn-disabled text-base-content/30">{% trans "Next" %}</button>
+    {% endif %}
+  </div>
+</div>
+{% endif %}

@@ -2,25 +2,23 @@
   {% if type %}type="{{ type }}"{% else %}type="button"{% endif %}
   {{ attrs }}
   class="
-    inline-flex items-center justify-center font-bold tracking-wide transition-all duration-300 ease-out active:scale-95 focus:outline-none focus:ring-4
+    btn
     {% if variant == 'primary' or not variant %}
-      bg-primary-600 text-white hover:bg-primary-700 shadow-lg shadow-primary-500/30 hover:shadow-primary-500/50 focus:ring-primary-500/40
+      btn-primary bg-indigo-600 hover:bg-indigo-700 text-white border-0
     {% elif variant == 'secondary' %}
-      bg-slate-900 text-white hover:bg-slate-800 shadow-lg shadow-slate-900/20 hover:shadow-slate-900/40 focus:ring-slate-900/30
+      btn-outline border-base-300 hover:bg-base-200 hover:border-base-300 text-base-content
     {% elif variant == 'outline' %}
-      border-2 border-slate-200 bg-transparent text-slate-700 hover:border-slate-300 hover:bg-slate-50 focus:ring-slate-200
+      btn-outline
     {% elif variant == 'ghost' %}
-      bg-transparent text-slate-600 hover:bg-slate-100 hover:text-slate-900 focus:ring-slate-200
+      btn-ghost
     {% endif %}
     {% if size == 'sm' %}
-      h-9 px-4 text-xs rounded-lg
+      btn-sm
     {% elif size == 'lg' %}
-      h-14 px-8 text-sm rounded-2xl
-    {% else %}
-      h-11 px-6 text-sm rounded-xl
+      btn-lg
     {% endif %}
+    rounded-full font-bold
     {% if w_full %}w-full{% endif %}
-    disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100
     {{ class }}
   "
 >

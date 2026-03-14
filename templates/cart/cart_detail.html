@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
-{% block title %}Cart - Smart S3r{% endblock %}
+{% block title %}{% trans "Cart" %} - Smart S3r{% endblock %}
 
 {% block content %}
-<div class="max-w-7xl mx-auto lg:w-[70%] px-6 py-12 lg:py-24">
-  <div class="mb-16">
-    <h2 class="text-xs font-black text-slate-400 uppercase tracking-[0.3em] mb-2">Your Selection</h2>
-    <h1 class="text-4xl font-black text-slate-900 tracking-tight">Shopping Cart</h1>
+<div class="max-w-[1400px] mx-auto px-4 md:px-8 py-12 lg:py-24">
+  <div class="mb-12">
+    <div class="badge badge-primary badge-outline mb-4 px-4 py-3 rounded-full font-bold uppercase tracking-widest text-xs">{% trans "Your Selection" %}</div>
+    <h1 class="text-4xl lg:text-5xl font-black text-base-content tracking-tight leading-none mb-6">{% trans "Shopping Cart" %}</h1>
   </div>
 
   <div id="cart-items">

@@ -3,15 +3,75 @@
 {% block title %}Categories - Smart S3r{% endblock %}
 
 {% block content %}
-<div class="max-w-7xl mx-auto lg:w-[70%] px-6 py-12 lg:py-24">
-  <div class="mb-16">
-    <h2 class="text-xs font-black text-slate-400 uppercase tracking-[0.3em] mb-2">Explore Our Collection</h2>
-    <h1 class="text-4xl font-black text-slate-900 tracking-tight">Shop by Category</h1>
-    <p class="text-sm font-bold text-slate-400 uppercase tracking-widest mt-4">{{ categories.count }} categories available</p>
+<div class="container-narrow page-content">
+  <div class="page-header">
+    <span class="page-label">Explore Our Collection</span>
+    <h1 class="page-title">Shop by Category</h1>
+    <p class="page-subtitle">{{ categories.count }} categories available</p>
   </div>
 
-  <div id="category-grid" class="grid grid-cols-2 lg:grid-cols-4 gap-8">
+  <div id="category-grid" class="category-grid">
     {% include 'categories/partials/category_list.html' %}
   </div>
 </div>
+
+<style>
+.page-content {
+  padding: 2rem 1rem;
+}
+
+@media (min-width: 1024px) {
+  .page-content {
+    padding: 3rem 1rem;
+  }
+}
+
+.page-header {
+  margin-bottom: 3rem;
+}
+
+.page-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 900;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  margin-bottom: 0.5rem;
+}
+
+.page-title {
+  font-size: 2rem;
+  font-weight: 900;
+  color: #0f172a;
+  letter-spacing: -0.025em;
+}
+
+@media (min-width: 768px) {
+  .page-title {
+    font-size: 2.5rem;
+  }
+}
+
+.page-subtitle {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: 1rem;
+}
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .category-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+</style>
 {% endblock %}

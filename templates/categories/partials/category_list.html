@@ -1,17 +1,85 @@
 {% for category in categories %}
-<a href="{% url 'categories:category_detail' category.slug %}" class="group">
-  <div class="bg-white rounded-[2rem] border border-slate-100 p-8 text-center hover:shadow-xl hover:shadow-slate-200/50 transition-all duration-500">
-    <div class="h-32 bg-slate-50 rounded-2xl mb-6 flex items-center justify-center group-hover:bg-primary/5 transition-colors">
-      <span class="text-xs font-black text-slate-400 uppercase tracking-widest">{{ category.name.0 }}</span>
-    </div>
-    <h3 class="font-black text-slate-900 uppercase text-[10px] tracking-widest mb-2">{{ category.name }}</h3>
-    <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">
-      {{ category.products.count }} PRODUCTS
-    </p>
+<a href="{% url 'categories:category_detail' category.slug %}" class="category-card">
+  <div class="category-icon">
+    <span>{{ category.name.0 }}</span>
   </div>
+  <h3 class="category-name">{{ category.name }}</h3>
+  <p class="category-count">{{ category.products.count }} PRODUCTS</p>
 </a>
 {% empty %}
-<div class="col-span-full text-center py-24 bg-slate-50 rounded-[3rem] border-2 border-dashed border-slate-200">
-  <p class="text-slate-400 font-black uppercase tracking-widest">No categories available.</p>
+<div class="empty-state">
+  <p>No categories available.</p>
 </div>
 {% endfor %}
+
+<style>
+.category-card {
+  display: block;
+  background-color: #ffffff;
+  border: 1px solid #f1f5f9;
+  border-radius: 2rem;
+  padding: 2rem;
+  text-align: center;
+  transition: box-shadow 0.5s ease;
+}
+
+.category-card:hover {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.category-icon {
+  height: 8rem;
+  background-color: #f8fafc;
+  border-radius: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  transition: background-color 0.3s ease;
+}
+
+.category-card:hover .category-icon {
+  background-color: #eef2ff;
+}
+
+.category-icon span {
+  font-size: 0.75rem;
+  font-weight: 900;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.category-name {
+  font-size: 0.625rem;
+  font-weight: 900;
+  color: #0f172a;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.5rem;
+}
+
+.category-count {
+  font-size: 0.5625rem;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 4rem 2rem;
+  background-color: #f8fafc;
+  border: 2px dashed #e2e8f0;
+  border-radius: 3rem;
+}
+
+.empty-state p {
+  color: #94a3b8;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+</style>

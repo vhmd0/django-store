@@ -1,45 +1,29 @@
 <!doctype html>
-<html lang="en">
-  {% load static %}
+{% load static i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+{% get_current_language_bidi as LANGUAGE_BIDI %}
+<html lang="{{ LANGUAGE_CODE }}" dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}Smart S3r{% endblock %}</title>
-    
-    <!-- Tailwind Output -->
     <link rel="stylesheet" href="{% static 'css/output.css' %}" />
-    
-    <!-- Core Scripts -->
-    <script src="{% static 'js/htmx.js' %}"></script>
     <script src="{% static 'js/alpine.js' %}" type="module" defer></script>
-    
+    <script src="{% static 'js/flyonui/flyonui.js' %}" defer></script>
     {% block extra_head %}{% endblock %}
-    
     <style>
-      /* Prevent layout shift before Alpine.js loads */
       [x-cloak] { display: none !important; }
-      
-      /* Smooth scroll behavior */
       html { scroll-behavior: smooth; }
-      
-      /* Selection color to match minimalist theme */
-      ::selection {
-        background-color: #0f172a; /* slate-900 */
-        color: #ffffff;
-      }
     </style>
   </head>
-  <body class="min-h-screen flex flex-col bg-white text-slate-900 selection:bg-slate-900 selection:text-white" hx-boost="true">
-    <!-- Global Navigation -->
+  <body>
     {% include 'includes/navbar.html' %}
-
-    <!-- Main Content Area -->
-    <main class="flex-1">
+    
+    <main>
       {% block content %}{% endblock %}
     </main>
 
-    <!-- Global Footer -->
-    {% include 'includes/footer.html' %} 
+    {% include 'includes/footer.html' %}
 
     {% block extra_scripts %}{% endblock %}
   </body>

@@ -4,6 +4,7 @@ export default {
     "./templates/**/*.html",
     "./static/**/*.js",
     "./node_modules/tw-animate-css/**/*.js",
+    "./node_modules/flyonui/dist/js/*.js",
   ],
   theme: {
     extend: {
@@ -31,6 +32,7 @@ export default {
     },
   },
   plugins: [
+    require("flyonui"),
     function ({ addUtilities }) {
       addUtilities({
         ".scrollbar-hide": {

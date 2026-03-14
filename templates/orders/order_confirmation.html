@@ -1,56 +1,248 @@
 {% extends 'base.html' %}
-{% load hugeicons_stroke %}
-
-{% block title %}Order Confirmed - Smart S3r{% endblock %}
+{% load i18n %}
+{% block title %}{% trans "Order Confirmed" %} - Smart S3r{% endblock %}
 
 {% block content %}
-<div class="max-w-7xl mx-auto lg:w-[70%] px-6 py-12 lg:py-24 text-center">
-  <div class="mb-24">
-    <h2 class="text-xs font-black text-slate-400 uppercase tracking-[0.3em] mb-4">Success /</h2>
-    <h1 class="text-5xl md:text-7xl font-black text-slate-900 tracking-tighter leading-none mb-8">Confirmed.</h1>
-    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Thank you for your purchase. Your order #{{ order.id }} is being processed.</p>
+<div class="container-narrow page-content">
+  <div class="confirmation-header">
+    <span class="confirmation-label">{% trans "Success /" %}</span>
+    <h1 class="confirmation-title">{% trans "Confirmed." %}</h1>
+    <p class="confirmation-text">{% blocktrans %}Thank you for your purchase. Your order #{{ order.id }} is being processed.{% endblocktrans %}</p>
   </div>
 
-  <div class="max-w-2xl mx-auto text-left space-y-16">
-    <div class="bg-white rounded-[2.5rem] border border-slate-100 p-12 space-y-12 hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-500">
-      <div class="flex justify-between items-start pb-12 border-b border-slate-50">
-        <div class="space-y-2">
-          <h2 class="text-xl font-black text-slate-900 uppercase tracking-tighter">Order Summary</h2>
-          <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">{{ order.created_at|date:"F j, Y" }}</p>
-        </div>
-        <span class="h-10 px-6 flex items-center bg-slate-900 text-white rounded-xl text-[9px] font-black uppercase tracking-widest">
-          {{ order.get_status_display }}
-        </span>
+  <div class="confirmation-card">
+    <div class="card-header">
+      <div>
+        <h2 class="card-title">{% trans "Order Summary" %}</h2>
+        <p class="card-date">{{ order.created_at|date:"F j, Y" }}</p>
       </div>
-
-      <!-- Order Items -->
-      <div class="space-y-8">
-        {% for item in items %}
-        <div class="flex justify-between items-center group">
-          <div class="space-y-1">
-            <p class="text-[11px] font-black text-slate-900 uppercase tracking-tight">{{ item.product.name }}</p>
-            <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Qty {{ item.quantity }} × ${{ item.price }}</p>
-          </div>
-          <p class="text-[11px] font-black text-slate-900">${{ item.subtotal }}</p>
-        </div>
-        {% endfor %}
-      </div>
-
-      <!-- Total -->
-      <div class="pt-12 border-t border-slate-200 flex justify-between items-baseline">
-        <span class="text-xs font-black text-slate-900 uppercase tracking-widest">Total</span>
-        <span class="text-4xl font-black text-slate-900">${{ order.total_amount }}</span>
-      </div>
+      <span class="badge badge-dark">{{ order.get_status_display }}</span>
     </div>
 
-    <div class="flex flex-col sm:flex-row gap-6">
-      <a href="{% url 'orders:order_list' %}" class="flex-1 h-16 flex items-center justify-center bg-slate-900 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-800 transition-all active:scale-95 shadow-xl shadow-slate-900/20">
-        View All Orders /
-      </a>
-      <a href="{% url 'products:products' %}" class="flex-1 h-16 flex items-center justify-center border border-slate-200 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-50 transition-all active:scale-95">
-        Continue Shopping /
-      </a>
+    <div class="card-items">
+      {% for item in items %}
+      <div class="card-item">
+        <div class="item-info">
+          <p class="item-name">{{ item.product.name }}</p>
+          <p class="item-meta">{% trans "Qty" %} {{ item.quantity }} × ${{ item.price }}</p>
+        </div>
+        <p class="item-price">${{ item.subtotal }}</p>
+      </div>
+      {% endfor %}
     </div>
+
+    <div class="card-total">
+      <span>{% trans "Total" %}</span>
+      <span class="total-amount">${{ order.total_amount }}</span>
+    </div>
+  </div>
+
+  <div class="confirmation-actions">
+    <a href="{% url 'orders:orders' %}" class="btn btn-primary btn-lg">
+      {% trans "View All Orders" %}
+    </a>
+    <a href="{% url 'products:products' %}" class="btn btn-outline btn-lg">
+      {% trans "Continue Shopping" %}
+    </a>
   </div>
 </div>
+
+<style>
+.page-content {
+  padding: 2rem 1rem;
+  text-align: center;
+}
+
+@media (min-width: 1024px) {
+  .page-content {
+    padding: 3rem 1rem;
+  }
+}
+
+.confirmation-header {
+  margin-bottom: 6rem;
+}
+
+.confirmation-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 900;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  margin-bottom: 1rem;
+}
+
+.confirmation-title {
+  font-size: 3rem;
+  font-weight: 900;
+  color: #0f172a;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+  .confirmation-title {
+    font-size: 4.5rem;
+  }
+}
+
+.confirmation-text {
+  font-size: 0.625rem;
+  font-weight: 900;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.confirmation-card {
+  background-color: #ffffff;
+  border: 1px solid #f1f5f9;
+  border-radius: 2.5rem;
+  padding: 3rem;
+  max-width: 42rem;
+  margin: 0 auto;
+  text-align: left;
+  transition: box-shadow 0.5s ease;
+}
+
+.confirmation-card:hover {
+  box-shadow: 0 25px 50px -12px rgba(148, 163, 184, 0.5);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: 3rem;
+  border-bottom: 1px solid #f8fafc;
+  margin-bottom: 2rem;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: #0f172a;
+  text-transform: uppercase;
+  letter-spacing: -0.025em;
+  margin-bottom: 0.25rem;
+}
+
+.card-date {
+  font-size: 0.625rem;
+  font-weight: 900;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  height: 2.5rem;
+  padding: 0 1.5rem;
+  border-radius: 0.75rem;
+  font-size: 0.5625rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.badge-dark {
+  background-color: #0f172a;
+  color: #ffffff;
+}
+
+.card-items {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.card-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.item-name {
+  font-size: 0.6875rem;
+  font-weight: 900;
+  color: #0f172a;
+  text-transform: uppercase;
+  letter-spacing: -0.025em;
+}
+
+.item-meta {
+  font-size: 0.5625rem;
+  font-weight: 900;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.item-price {
+  font-size: 0.6875rem;
+  font-weight: 900;
+  color: #0f172a;
+}
+
+.card-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-top: 3rem;
+  border-top: 1px solid #e2e8f0;
+  margin-top: 1rem;
+}
+
+.card-total span:first-child {
+  font-size: 0.75rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #0f172a;
+}
+
+.total-amount {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: #0f172a;
+}
+
+.confirmation-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 42rem;
+  margin: 3rem auto 0;
+}
+
+@media (min-width: 640px) {
+  .confirmation-actions {
+    flex-direction: row;
+  }
+}
+
+.confirmation-actions .btn {
+  flex: 1;
+}
+
+.btn-outline {
+  background-color: transparent;
+  border: 1px solid #e2e8f0;
+  color: #0f172a;
+}
+
+.btn-outline:hover {
+  background-color: #f8fafc;
+}
+</style>
 {% endblock %}
