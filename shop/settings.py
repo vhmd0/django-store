@@ -28,7 +28,7 @@ SECRET_KEY = "django-insecure-8gf+0x-f6lr*))awq_+5w@ogaydvw0#hp2+1t(66yfi$*ql$oc
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1','0.0.0.0']
 
 
 # Application definition
@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     "cart",
     "orders",
     "django_browser_reload",
+    "django_bootstrap5",
+    "django_bootstrap_icons",
 ]
 
 MIDDLEWARE = [

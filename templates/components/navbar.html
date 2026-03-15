@@ -1,0 +1,250 @@
+{% load django_bootstrap5 %}
+{% load bootstrap_icons %}
+{% load i18n %}
+
+<nav class="navbar navbar-expand-md navbar-light bg-white border-bottom py-2 sticky-top shadow-sm">
+  <div class="container">
+
+    <a class="navbar-brand fw-bold m-0" href="/" style="letter-spacing: -0.05em; font-size: 1.4rem">
+      SMART S3R.
+    </a>
+
+    <div class="d-flex d-md-none align-items-center gap-2">
+      <button class="btn btn-link text-dark p-0 text-decoration-none" type="button" data-bs-toggle="collapse"
+        data-bs-target="#mobileSearch" aria-label="Toggle search">
+        {% bs_icon 'search' size='1.4em' %}
+      </button>
+      <a href="#cartOffcanvas" data-bs-toggle="offcanvas" aria-controls="cartOffcanvas"
+        class="btn btn-link text-dark p-0 text-decoration-none position-relative">
+        {% bs_icon 'cart' size='1.4em' %}
+        {% if cart_count > 0 %}
+        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+          style="font-size: 0.55rem; min-width: 16px; height: 16px; line-height: 1;">
+          {% if cart_count < 10 %}{{ cart_count }}{% else %}9+{% endif %} </span>
+            {% endif %}
+      </a>
+
+      <button class="navbar-toggler border-0 p-0 ms-1 shadow-none" type="button" data-bs-toggle="collapse"
+        data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        {% bs_icon 'list' size='1.8em' %}
+      </button>
+    </div>
+
+
+
+
+
+    <div class="d-none d-lg-block flex-grow-1 mx-4 position-relative js-search-wrapper" style="max-width: 500px;">
+      <form action="/search/" method="get" autocomplete="off">
+        <div class="input-group">
+          <span class="input-group-text bg-white border-end-0 px-3">
+            {% bs_icon 'search' size='1.1em' %}
+          </span>
+          <input type="text" name="q" class="form-control border-start-0 ps-0 js-search-input"
+            placeholder='{% trans "Search for products..." %}'>
+          <button type="button" class="btn btn-outline-secondary border-start-0 px-2 d-none js-search-clear">
+            {% bs_icon 'x-lg' size='1em' %}
+          </button>
+          <button class="btn btn-dark" type="submit">
+            {% bs_icon 'arrow-right' size='1.1em' %}
+          </button>
+
+          <div class="dropdown-menu w-100 border-0 shadow-lg mt-2 rounded-3 show js-search-dropdown"
+            style="display:none; max-height: 350px; overflow-y:auto; position: absolute; z-index: 1050; top: 100%; left: 0; right: 0;">
+            <div class="js-search-results"></div>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item text-center text-muted py-2 js-search-all" href="#">
+              {% trans "View all results" %}
+            </a>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="d-none d-md-flex d-lg-none align-items-center gap-2">
+      <a href="/wishlist/" class="text-dark position-relative text-decoration-none p-1">
+        {% bs_icon 'heart' size='1.3em' %}
+        {% if wishlist_count > 0 %}
+        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+          style="font-size: 0.5rem; min-width: 14px; height: 14px; line-height: 1;">
+          {% if wishlist_count < 10 %}{{ wishlist_count }}{% else %}9+{% endif %} </span>
+            {% endif %}
+      </a>
+      <a href="/profile/" class="text-dark text-decoration-none p-1">
+        {% bs_icon 'person' size='1.3em' %}
+      </a>
+      {% if user.is_authenticated %}
+      <a href="/logout/" class="btn btn-dark btn-sm rounded-pill px-3 fw-bold text-uppercase"
+        style="font-size: 0.65rem;">{% trans "Logout" %}</a>
+      {% else %}
+      <a href="/login/" class="btn btn-outline-dark btn-sm rounded-pill px-2 fw-bold text-uppercase"
+        style="font-size: 0.65rem;">{% trans "Login" %}</a>
+      <a href="/register/" class="btn btn-dark btn-sm rounded-pill px-2 fw-bold text-uppercase"
+        style="font-size: 0.65rem;">{% trans "Join us" %}</a>
+      {% endif %}
+    </div>
+
+    <div class="collapse d-md-none w-100 mt-2" id="mobileSearch">
+      <div class="js-search-wrapper">
+        <form action="/search/" method="get" autocomplete="off">
+          <div class="input-group">
+            <span class="input-group-text bg-white border-end-0 px-3">
+              {% bs_icon 'search' size='1.1em' %}
+            </span>
+            <input type="text" name="q" class="form-control border-start-0 ps-0 js-search-input"
+              placeholder='{% trans "Search for products..." %}'>
+            <button type="button" class="btn btn-outline-secondary border-start-0 px-2 d-none js-search-clear">
+              {% bs_icon 'x-lg' size='1em' %}
+            </button>
+            <button class="btn btn-dark" type="submit">
+              {% bs_icon 'arrow-right' size='1.1em' %}
+            </button>
+
+            <div class="dropdown-menu w-100 border-0 shadow-lg mt-2 rounded-3 show js-search-dropdown"
+              style="display:none; max-height: 300px; overflow-y:auto; position: absolute; z-index: 1050; top: 100%; left: 0; right: 0;">
+              <div class="js-search-results"></div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="d-none d-lg-flex align-items-center gap-4">
+      <div class="d-flex align-items-center gap-3">
+        <a class="text-decoration-none text-dark fw-bold text-uppercase"
+          style="font-size: 0.75rem; letter-spacing: 0.1em;" href="/store/">{% trans "Store" %}</a>
+        <a class="text-decoration-none text-dark fw-bold text-uppercase"
+          style="font-size: 0.75rem; letter-spacing: 0.1em;" href="/about/">{% trans "About" %}</a>
+        <a class="text-decoration-none text-dark fw-bold text-uppercase"
+          style="font-size: 0.75rem; letter-spacing: 0.1em;" href="/categories/">{% trans "Categories" %}</a>
+      </div>
+
+      <div class="d-flex align-items-center gap-3 border-start ps-4">
+        <div class="dropdown">
+          <a class="text-decoration-none text-dark fw-bold text-uppercase dropdown-toggle" style="font-size: 0.7rem;"
+            href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            {% if request.LANGUAGE_CODE == 'ar' %}AR{% else %}EN{% endif %}
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0" style="min-width: auto;">
+            <li><a class="dropdown-item fw-bold text-center {% if request.LANGUAGE_CODE != 'ar' %}active{% endif %}" href="/i18n/setlang/?lang=en" style="font-size: 0.8rem;">EN</a></li>
+            <li><a class="dropdown-item fw-bold text-center {% if request.LANGUAGE_CODE == 'ar' %}active{% endif %}" href="/i18n/setlang/?lang=ar" style="font-size: 0.8rem;">AR</a></li>
+          </ul>
+        </div>
+
+        <div class="d-flex align-items-center gap-3">
+          <a href="/wishlist/" class="text-dark position-relative text-decoration-none p-1">
+            {% bs_icon 'heart' size='1.3em' %}
+            {% if wishlist_count > 0 %}
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+              style="font-size: 0.55rem; min-width: 16px; height: 16px; line-height: 1;">
+              {% if wishlist_count < 10 %}{{ wishlist_count }}{% else %}9+{% endif %} </span>
+                {% endif %}
+          </a>
+
+          <a href="#cartOffcanvas" data-bs-toggle="offcanvas" aria-controls="cartOffcanvas"
+            class="text-dark position-relative text-decoration-none p-1">
+            {% bs_icon 'cart' size='1.3em' %}
+            {% if cart_count > 0 %}
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+              style="font-size: 0.55rem; min-width: 16px; height: 16px; line-height: 1;">
+              {% if cart_count < 10 %}{{ cart_count }}{% else %}9+{% endif %} </span>
+                {% endif %}
+          </a>
+
+          <a href="/profile/" class="text-dark text-decoration-none p-1">
+            {% bs_icon 'person' size='1.4em' %}
+          </a>
+        </div>
+
+        {% if user.is_authenticated %}
+        <a href="/logout/" class="btn btn-dark rounded-pill px-4 py-1 fw-bold text-uppercase ms-2"
+          style="font-size: 0.7rem; letter-spacing: 0.1em;">{% trans "Logout" %}</a>
+        {% else %}
+        <a href="/login/" class="btn btn-outline-dark rounded-pill px-3 py-1 fw-bold text-uppercase"
+          style="font-size: 0.7rem; letter-spacing: 0.1em;">{% trans "Login" %}</a>
+        <a href="/register/" class="btn btn-dark rounded-pill px-3 py-1 fw-bold text-uppercase ms-2"
+          style="font-size: 0.7rem; letter-spacing: 0.1em;">{% trans "Join us" %}</a>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="collapse navbar-collapse mt-3" id="navbarNav">
+
+      <ul class="navbar-nav gap-2 mb-3 d-md-none">
+        <li class="nav-item">
+          <a class="nav-link fw-bold text-uppercase" href="/store/">{% trans "Store" %}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link fw-bold text-uppercase" href="/about/">{% trans "About" %}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link fw-bold text-uppercase" href="/categories/">{% trans "Categories" %}</a>
+        </li>
+      </ul>
+
+      <hr class="d-lg-none">
+
+      <div class="d-lg-none d-md-block d-flex flex-column gap-3">
+        <div class="d-flex align-items-center justify-content-between">
+          <span class="text-muted small text-uppercase fw-bold">{% trans "Language" %}</span>
+          <div class="d-flex gap-2">
+            <a href="/i18n/setlang/?lang=en"
+              class="btn btn-outline-secondary btn-sm rounded-0 {% if request.LANGUAGE_CODE != 'ar' %}active{% endif %}">English</a>
+            <a href="/i18n/setlang/?lang=ar"
+              class="btn btn-outline-secondary btn-sm rounded-0 {% if request.LANGUAGE_CODE == 'ar' %}active{% endif %}">العربية</a>
+          </div>
+        </div>
+
+        <div class="d-flex gap-3">
+          <a class="nav-link fw-bold text-uppercase position-relative" href="/wishlist/">
+            {% bs_icon 'heart' size='1.2em' %}
+            {% trans "Wishlist" %}
+            {% if wishlist_count > 0 %}
+            <span class="badge bg-danger rounded-pill ms-1">{{ wishlist_count }}</span>
+            {% endif %}
+          </a>
+          <a class="nav-link fw-bold text-uppercase position-relative" href="#cartOffcanvas" data-bs-toggle="offcanvas"
+            aria-controls="cartOffcanvas">
+            {% bs_icon 'cart' size='1.2em' %}
+            {% trans "Cart" %}
+            {% if cart_count > 0 %}
+            <span class="badge bg-danger rounded-pill ms-1">{{ cart_count }}</span>
+            {% endif %}
+          </a>
+        </div>
+
+        <hr>
+
+        {% if user.is_authenticated %}
+        <a class="nav-link fw-bold text-uppercase" href="/profile/">{% trans "Profile" %}</a>
+        <a class="nav-link fw-bold text-uppercase" href="/logout/">{% trans "Logout" %}</a>
+        {% else %}
+        <div class="d-flex gap-2">
+          <a href="/login/" class="btn btn-outline-dark rounded-0 fw-bold text-uppercase flex-fill"
+            style="font-size: 0.75rem;">{% trans "Login" %}</a>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+<!-- Cart Offcanvas -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="cartOffcanvas" aria-labelledby="cartOffcanvasLabel">
+  <div class="offcanvas-header border-bottom">
+    <h5 class="offcanvas-title fw-bold d-flex align-items-center" id="cartOffcanvasLabel">
+      <span class="me-2 d-flex align-items-center">{% bs_icon 'cart' size='1.2em' %}</span>
+      {% trans "Shopping Cart" %}
+    </h5>
+    <button type="button" class="btn-close shadow-none" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div class="text-center mt-5 text-muted">
+      <div class="mb-3 text-secondary">{% bs_icon 'cart-x' size='3em' %}</div>
+      <p>{% trans "Your cart is currently empty." %}</p>
+      <a href="/store/" class="btn btn-dark mt-3 px-4 rounded-pill" data-bs-dismiss="offcanvas">{% trans "Continue
+        Shopping" %}</a>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}{% trans "About" %} - {{ block.super }}{% endblock %}
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1 class="text-center mb-4">{% trans "About Us" %}</h1>
+            <p class="text-center fs-5">{% trans "We are a family-owned business based in the heart of the city. We
+                specialize in providing high-quality products to our customers." %}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

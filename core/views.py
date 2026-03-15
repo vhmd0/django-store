@@ -11,7 +11,7 @@ def home(request):
         "categories": categories,
         "featured_products": featured_products,
     }
-    return render(request, "home.html", context)
+    return render(request, "pages/home.html", context)
 
 def about(request):
     return render(request, "about.html")

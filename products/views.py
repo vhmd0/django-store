@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
+from django.http import JsonResponse
 
 from products.models import Product, Category
 
@@ -17,6 +18,11 @@ def product_list(request):
     query = request.GET.get("q")
     if query:
         products = products.filter(name__icontains=query)
+
+    # JSON response for auto-complete
+    if request.GET.get("format") == "json":
+        products_data = list(products[:10].values("id", "name", "slug", "price", "img"))
+        return JsonResponse({"products": products_data})
 
     # Sort
     sort = request.GET.get("sort", "-created_at")
@@ -51,10 +57,9 @@ def product_detail(request, slug):
         Product.objects.select_related("category", "brand").prefetch_related("tags"),
         slug=slug,
     )
-    related_products = (
-        Product.objects.filter(category=product.category)
-        .exclude(id=product.id)[:4]
-    )
+    related_products = Product.objects.filter(category=product.category).exclude(
+        id=product.id
+    )[:4]
 
     context = {
         "product": product,
