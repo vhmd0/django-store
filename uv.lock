@@ -219,6 +219,18 @@ wheels = [
 ]
 
 [[package]]
+name = "django-spa"
+version = "0.3.6"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "whitenoise" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/f6/e4/c4a40c3adf8e3837a41e92acc47c79fd797a850fcd6776570be292bc8e62/django-spa-0.3.6.tar.gz", hash = "sha256:fc09eb0dd0b296bd4c4fcaa8fb7715f363ed385bc2446a6dcb4ee57b1b7027d5", size = 14354, upload-time = "2021-12-07T11:01:55.636Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/20/95/1f1d5e8efb4d8597f9e3d6160c22c6fd9ec43c0ea258eba085f1eb8120c9/django_spa-0.3.6-py2.py3-none-any.whl", hash = "sha256:b3eff51e4edfb046a5293e73ad0e3105f0ee654873b42bae172178acc47ad450", size = 6903, upload-time = "2021-12-07T11:01:53.961Z" },
+]
+
+[[package]]
 name = "django-triggers"
 version = "2.1.5"
 source = { registry = "https://pypi.org/simple" }
@@ -366,6 +378,7 @@ dependencies = [
     { name = "django-bootstrap5" },
     { name = "django-browser-reload" },
     { name = "django-jazzmin" },
+    { name = "django-spa" },
     { name = "django-triggers" },
     { name = "pillow" },
 ]
@@ -377,6 +390,7 @@ requires-dist = [
     { name = "django-bootstrap5", specifier = ">=26.2" },
     { name = "django-browser-reload", specifier = ">=1.21.0" },
     { name = "django-jazzmin", specifier = "==3.0.4" },
+    { name = "django-spa", specifier = ">=0.3.6" },
     { name = "django-triggers", specifier = ">=2.1.5" },
     { name = "pillow", specifier = ">=12.1.1" },
 ]
@@ -436,4 +450,13 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/35/a2/8e3becb46433538a38726c948d3399905a4c7cabd0df578ede5dc51f0ec2/wcwidth-0.6.0.tar.gz", hash = "sha256:cdc4e4262d6ef9a1a57e018384cbeb1208d8abbc64176027e2c2455c81313159", size = 159684, upload-time = "2026-02-06T19:19:40.919Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/68/5a/199c59e0a824a3db2b89c5d2dade7ab5f9624dbf6448dc291b46d5ec94d3/wcwidth-0.6.0-py3-none-any.whl", hash = "sha256:1a3a1e510b553315f8e146c54764f4fb6264ffad731b3d78088cdb1478ffbdad", size = 94189, upload-time = "2026-02-06T19:19:39.646Z" },
+]
+
+[[package]]
+name = "whitenoise"
+version = "5.3.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/78/29/84c808294f76d854e9983a18cb6129c1d72a99609aef1853f8e6399de07f/whitenoise-5.3.0.tar.gz", hash = "sha256:d234b871b52271ae7ed6d9da47ffe857c76568f11dd30e28e18c5869dbd11e12", size = 46338, upload-time = "2021-07-16T16:59:54.296Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/8d/1e/ec69984d05e570ec7c61d28cbce51b8f4623e4121ca57ac6ad76e4f5ffe8/whitenoise-5.3.0-py2.py3-none-any.whl", hash = "sha256:d963ef25639d1417e8a247be36e6aedd8c7c6f0a08adcb5a89146980a96b577c", size = 19822, upload-time = "2021-07-16T16:59:52.113Z" },
 ]
