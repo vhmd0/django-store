@@ -48,7 +48,7 @@ def product_list(request):
     if request.headers.get("HX-Target") == "product-grid":
         return render(request, "products/partials/product_grid.html", context)
 
-    return render(request, "products/product_list.html", context)
+    return render(request, "pages/products.html", context)
 
 
 def product_detail(request, slug):
@@ -66,7 +66,7 @@ def product_detail(request, slug):
         "related_products": related_products,
     }
 
-    return render(request, "products/product_detail.html", context)
+    return render(request, "pages/products_details.html", context)
 
 
 def category_list(request):
@@ -78,9 +78,9 @@ def category_list(request):
     }
 
     if request.headers.get("HX-Target") == "category-grid":
-        return render(request, "categories/partials/category_list.html", context)
+        return render(request, "pages/partials/category/category_list.html", context)
 
-    return render(request, "categories/category_list.html", context)
+    return render(request, "pages/category_list.html", context)
 
 
 def category_detail(request, slug):
@@ -99,6 +99,6 @@ def category_detail(request, slug):
     }
 
     if request.headers.get("HX-Target") == "category-products":
-        return render(request, "categories/partials/category_products.html", context)
+        return render(request, "pages/partials/category_products.html", context)
 
-    return render(request, "categories/category_detail.html", context)
+    return render(request, "pages/category_detail.html", context)
